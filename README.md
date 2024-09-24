@@ -1,4 +1,4 @@
-VoiceCall Assistant is a cutting-edge app designed to simplify your life by allowing you to make function calls and control your device hands-free. Whether you're multitasking, driving, or simply prefer voice commands, this app delivers seamless integration and convenience with advanced voice recognition technology.
+Beyond is a AI powered Voice Assistant app designed to simplify your life by allowing you to make function calls and control your device hands-free. Whether you're multitasking, driving, or simply prefer voice commands, this app delivers seamless integration and convenience with advanced voice recognition technology.
 
 Key Features:
 - Voice Command Calling: Easily call predefined functions or execute commands by speaking. No need to navigate menus or type long queries—just ask, and it delivers!
