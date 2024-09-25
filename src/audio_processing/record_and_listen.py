@@ -1,13 +1,17 @@
+import os
+# Audio libaries
 import pyaudio
 import wave
 import speech_recognition as sr
 
+from src.constants import AUDIO_PATH
+
 # must be later set from config.ini
-WAKE_WORD = "hey Beyond"
+WAKE_WORD = "Beyond"
 
 FORMAT = pyaudio.paInt16
 
-def listen_for_wake_word(wake_word, threshold=0.5, duration=None):
+def listen_for_wake_word(wake_word, keyword_threshhold = 0.3, recorder_threshold=0.6):
     """
     Listens continuously for a wake word and records audio until silence is detected.
 
@@ -22,7 +26,8 @@ def listen_for_wake_word(wake_word, threshold=0.5, duration=None):
     with microphone as source:
         print("Adjusting for ambient noise... Please wait")
         recognizer.adjust_for_ambient_noise(source)
-        recognizer.pause_threshold = 0.5
+        recognizer.pause_threshold = keyword_threshhold
+        recognizer.non_speaking_duration = keyword_threshhold if recognizer.pause_threshold < recognizer.non_speaking_duration else 0.5
         recognizer.energy_threshold = 500
         print("Listening for wake word")
 
@@ -35,7 +40,8 @@ def listen_for_wake_word(wake_word, threshold=0.5, duration=None):
 
                 if wake_word.lower() in transcription.lower():
                     print("Wake word detected! Starting recording...")
-                    record_audio(threshold)
+                    record_audio(recorder_threshold)
+                    print("Listening again for wake word")
 
             except sr.UnknownValueError:
                 print("Could not understand audio.")
@@ -46,6 +52,8 @@ def listen_for_wake_word(wake_word, threshold=0.5, duration=None):
 def record_audio(pause_threshold):
     """
     Records audio until silence is detected.
+
+    :param pause_threshold: The amount of silence it waits to detect in seconds
     """
     recognizer = sr.Recognizer()
     microphone = sr.Microphone()
@@ -53,7 +61,9 @@ def record_audio(pause_threshold):
     with microphone as source:
         print("Adjusting for ambient noise... Please wait")
         recognizer.adjust_for_ambient_noise(source)
-        recognizer.pause_threshold = 0.6
+        recognizer.pause_threshold = pause_threshold
+        recognizer.non_speaking_duration = pause_threshold if recognizer.pause_threshold < recognizer.non_speaking_duration else 0.5
+
         recognizer.energy_threshold = 500
 
         print("Recording... (talk and I'll stop recording when you're done)")
@@ -74,7 +84,9 @@ def record_audio(pause_threshold):
                                       sample_width=audio_data[0].sample_width)
 
         # Save the recorded data as a WAV file
-        with wave.open("recorded_audio.wav", 'wb') as wf:
+        audio_file_path = os.path.join(os.path.dirname(__file__), AUDIO_PATH)
+
+        with wave.open(audio_file_path, 'wb') as wf:
             wf.setnchannels(1)  # Mono
             wf.setsampwidth(combined_audio.sample_width)
             wf.setframerate(combined_audio.sample_rate)

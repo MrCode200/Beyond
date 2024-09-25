@@ -1,12 +1,16 @@
 import pyaudio
 import wave
 
-from src.constants import CHUNK, WAVE_OUTPUT_FILENAME
+from src.constants import CHUNK, AUDIO_PATH
 
-def play_audio(audio_filename):
+def play_audio():
+    """
+    plays_the_audio from the audio dir as written in AUDIO_PATH in constants.py
+    """
+
     # To play back the recorded audio
     print("Playing back...")
-    wf = wave.open(audio_filename, 'rb')
+    wf = wave.open(AUDIO_PATH, 'rb')
     play_audio = pyaudio.PyAudio()
 
     stream = play_audio.open(format=play_audio.get_format_from_width(wf.getsampwidth()),
@@ -26,4 +30,4 @@ def play_audio(audio_filename):
 
 
 if __name__ == '__main__':
-    play_audio(WAVE_OUTPUT_FILENAME)
+    play_audio()

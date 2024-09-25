@@ -1,9 +1,4 @@
-# AUDIO_PATH = "audio/"
 # Audio settings
-# AUDIO_FORMAT = "wav"
-CHANNELS = 1
-RATE = 44100
+AUDIO_PATH = "../../audio/recorded_audio.wav" # location from submodule inside src to root of the project
 CHUNK = 1024
-WAVE_OUTPUT_FILENAME = "recorded_audio.wav"
-
 
