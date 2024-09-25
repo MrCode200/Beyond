@@ -1,0 +1,8 @@
+{
+  "settings" : {
+    "API_KEY" : "HereLangChainApiKey"
+  },
+  "database" : {
+    "log" : false
+  }
+}

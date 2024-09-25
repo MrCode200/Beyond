@@ -9,3 +9,6 @@ Key Features:
 
 Empower yourself to get more done, faster, and smarter with VoiceCall Assistant—your personal voice-powered command center.
 
+TODO:
+
+[ ] Choose between config.ini or json.ini
