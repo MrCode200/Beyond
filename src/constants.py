@@ -3,6 +3,7 @@ AUDIO_PATH = "../../audio/ai_voice.wav" # location from submodule inside src to 
 
 KEYWORD_THRESHOLD = 0.3
 RECORDER_THRESHOLD = 0.6
+ENERGY_THRESHOLD = 500
 
 # Wake words
 WAKE_WORD = "Beyond"
