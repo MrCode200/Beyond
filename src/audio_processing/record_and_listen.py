@@ -4,7 +4,7 @@ import pyaudio
 import wave
 import speech_recognition as sr
 
-from src.constants import AUDIO_PATH, KEYWORD_THRESHOLD, RECORDER_THRESHOLD, WAKE_WORD
+from src.constants import AUDIO_PATH, KEYWORD_THRESHOLD, RECORDER_THRESHOLD, WAKE_WORD, ENERGY_THRESHOLD
 
 # must be later set from config.ini
 
@@ -27,7 +27,7 @@ def listen_for_wake_word(wake_word = WAKE_WORD, keyword_threshold=KEYWORD_THRESH
         recognizer.adjust_for_ambient_noise(source)
         recognizer.pause_threshold = keyword_threshold
         recognizer.non_speaking_duration = keyword_threshold if recognizer.pause_threshold < recognizer.non_speaking_duration else 0.5
-        recognizer.energy_threshold = 500
+        recognizer.energy_threshold = ENERGY_THRESHOLD
         print("Listening for wake word")
 
         while True:
@@ -62,8 +62,7 @@ def record_audio(pause_threshold):
         recognizer.adjust_for_ambient_noise(source)
         recognizer.pause_threshold = pause_threshold
         recognizer.non_speaking_duration = pause_threshold if recognizer.pause_threshold < recognizer.non_speaking_duration else 0.5
-
-        recognizer.energy_threshold = 500
+        recognizer.energy_threshold = ENERGY_THRESHOLD
 
         print("Recording... (talk and I'll stop recording when you're done)")
         audio_data = []
