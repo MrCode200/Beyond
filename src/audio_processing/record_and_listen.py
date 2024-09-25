@@ -10,7 +10,7 @@ from src.constants import AUDIO_PATH, KEYWORD_THRESHOLD, RECORDER_THRESHOLD, WAK
 
 FORMAT = pyaudio.paInt16
 
-def listen_for_wake_word(wake_word = WAKE_WORD, keyword_threshold=KEYWORD_THRESHOLD, recorder_threshold=RECORDER_THRESHOLD):
+def listen_for_wake_word(wake_word = WAKE_WORD, keyword_threshold=KEYWORD_THRESHOLD, recorder_threshold=RECORDER_THRESHOLD, energy_threshold=ENERGY_THRESHOLD):
     """
     Listens continuously for a wake word and records audio until silence is detected.
 
@@ -18,6 +18,7 @@ def listen_for_wake_word(wake_word = WAKE_WORD, keyword_threshold=KEYWORD_THRESH
     :keyword wake_word: The word that will trigger the recording.
     :keyword keyword_threshold: Maximum length of silence in seconds to start recording.
     :keyword recorder_threshold: Maximum length of silence in seconds to stop recording.
+    :keyword energy_threshold: Sadly couldnt find anything about it, It starts recording from that energythreshold up
     """
     recognizer = sr.Recognizer()
     microphone = sr.Microphone()
@@ -27,7 +28,7 @@ def listen_for_wake_word(wake_word = WAKE_WORD, keyword_threshold=KEYWORD_THRESH
         recognizer.adjust_for_ambient_noise(source)
         recognizer.pause_threshold = keyword_threshold
         recognizer.non_speaking_duration = keyword_threshold if recognizer.pause_threshold < recognizer.non_speaking_duration else 0.5
-        recognizer.energy_threshold = ENERGY_THRESHOLD
+        recognizer.energy_threshold = energy_threshold
         print("Listening for wake word")
 
         while True:
