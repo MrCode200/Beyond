@@ -1,32 +1,22 @@
-import pyaudio
+import soundfile as sf
+import sounddevice as sd
 import wave
 
-from src.constants import CHUNK, AUDIO_PATH
+from src.constants import AUDIO_PATH
 
 def play_audio():
-    """
-    plays_the_audio from the audio dir as written in AUDIO_PATH in constants.py
-    """
-
-    # To play back the recorded audio
     print("Playing back...")
-    wf = wave.open(AUDIO_PATH, 'rb')
-    play_audio = pyaudio.PyAudio()
+    # Read the audio file
+    data, samplerate = sf.read(AUDIO_PATH)
 
-    stream = play_audio.open(format=play_audio.get_format_from_width(wf.getsampwidth()),
-                              channels=wf.getnchannels(),
-                              rate=wf.getframerate(),
-                              output=True)
+    # Play the audio without blocking
+    sd.play(data, samplerate)
 
-    data = wf.readframes(CHUNK)
+    # Optionally, you can check the playback status
+    while sd.get_stream().active:
+        print("Audio is playing...")
 
-    while data:
-        stream.write(data)
-        data = wf.readframes(CHUNK)
-
-    stream.stop_stream()
-    stream.close()
-    play_audio.terminate()
+    print("Finished playback.")
 
 
 if __name__ == '__main__':
